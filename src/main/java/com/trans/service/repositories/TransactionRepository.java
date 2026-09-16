@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.trans.service.entities.Transaction;
 
 @Repository 
-public interface TransactionRepository extends org.springframework.data.jpa.repository.JpaRepository<com.trans.service.entities.Transaction, Long>{
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
 }
-    

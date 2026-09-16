@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import com.trans.service.repositories.TransactionRepository;
 import com.trans.service.entities.Transaction;
 import com.trans.service.dto.TransactionRequestDto;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
     
 @Service 
@@ -26,5 +28,9 @@ public class TransactionService {
         transaction.setEstado("PENDIENTE");
 
         return transactionRepository.save(transaction);
+    }
+
+    public List<Transaction> obtenerPorUsuario(Long idUsuario) {
+        return transactionRepository.findByIdUsuario(idUsuario);
     }
 }

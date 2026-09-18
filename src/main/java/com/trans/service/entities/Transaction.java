@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+import jakarta.persistence.PrePersist;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,14 +16,12 @@ import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-
 @Entity
 @Table(name = "transferencias")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Transaction {
 
     @Id
@@ -49,4 +48,14 @@ public class Transaction {
 
     @Column (name = "estado", nullable = false)
     private String estado;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.fechaTransferencia == null) {
+            this.fechaTransferencia = LocalDateTime.now();
+        }
+        if (this.estado == null) {
+            this.estado = "EXITOSA";
+        }
+    }
 }

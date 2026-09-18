@@ -21,6 +21,7 @@ public class SecurityConfig {
                         authRequest
                                 .requestMatchers("/auth/**").permitAll() // Permite login y registro
                                 .requestMatchers("/h2-console/**").permitAll() // Permite acceso a la consola H2
+                                .requestMatchers("/error").permitAll()
                                 .anyRequest().authenticated()
                 )
                 // Permitir que la consola de H2 se renderice en iframes

@@ -19,8 +19,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Desactivamos CSRF
                 .authorizeHttpRequests(authRequest ->
                         authRequest
-                                .requestMatchers("/auth/**").permitAll() // Permite login y registro
-                                .requestMatchers("/h2-console/**").permitAll() // Permite acceso a la consola H2
+                                .requestMatchers("/auth/**").permitAll() 
+                                .requestMatchers("/h2-console/**").permitAll() 
+                                .requestMatchers("/api/usuarios/**").permitAll()
                                 .requestMatchers("/error").permitAll()
                                 .anyRequest().authenticated()
                 )

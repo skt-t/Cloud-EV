@@ -1,0 +1,261 @@
+/* Dashboard.css — paleta clara y minimalista */
+
+:root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --border: #e5e7eb;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --accent: #6366f1;
+    --accent-soft: #eef2ff;
+    --accent-hover: #4f46e5;
+    --danger: #ef4444;
+    --danger-soft: #fef2f2;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text-primary);
+}
+
+.loader {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg);
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.dashboard-container {
+    min-height: 100vh;
+    padding: 2.5rem 2rem;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+/* Header — barra simple, sin degradados */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface);
+    color: var(--text-primary);
+    padding: 1.25rem 1.75rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header-logo h1 {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.logo-icon {
+    font-size: 1.5rem;
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.header-user strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.btn-logout {
+    background-color: var(--surface);
+    color: var(--danger);
+    border: 1px solid var(--border);
+    padding: 0.55rem 1.1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.btn-logout:hover {
+    background-color: var(--danger-soft);
+    border-color: var(--danger);
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.55rem 1.1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Tarjetas de métricas — compactas, en línea */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+
+.metric-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.metric-card h3 {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.metric-card p {
+    margin: 0;
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Acento por tarjeta, discreto en vez de borde grueso */
+.transfer-card p { color: var(--accent); }
+.contact-card p { color: #0f766e; }
+
+/* Tablas de detalle */
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.25rem;
+}
+
+.detail-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.5rem 1.5rem 0.5rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.detail-card h2 {
+    margin: 0 0 1rem 0;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.btn-add-contacto {
+    background-color: var(--accent-soft);
+    color: var(--accent);
+    border: none;
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.btn-add-contacto:hover {
+    background-color: var(--accent);
+    color: white;
+}
+
+.detail-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.list-item:last-child {
+    border-bottom: none;
+}
+
+.flex-col {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+}
+
+.item-name {
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.item-amount {
+    font-weight: 600;
+    color: var(--danger);
+    font-size: 1rem;
+}
+
+.item-bold {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.98rem;
+}
+
+.item-sub {
+    color: var(--text-muted);
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    font-size: 0.85rem;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}

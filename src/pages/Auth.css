@@ -1,0 +1,154 @@
+/* Auth.css — Login y Register, misma paleta que Dashboard.css */
+
+:root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --border: #e5e7eb;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --accent: #6366f1;
+    --accent-soft: #eef2ff;
+    --accent-hover: #4f46e5;
+    --danger: #ef4444;
+    --danger-soft: #fef2f2;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text-primary);
+}
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 380px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2.25rem 2rem;
+}
+
+.auth-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 0.25rem;
+}
+
+.auth-logo .logo-icon {
+    font-size: 1.5rem;
+}
+
+.auth-logo h1 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.auth-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0 0 1.75rem 0;
+}
+
+.auth-error {
+    background-color: var(--danger-soft);
+    color: var(--danger);
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.85rem;
+    text-align: center;
+    margin: 0 0 1.25rem 0;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.auth-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.auth-label input {
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.7rem 0.85rem;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.auth-label input::placeholder {
+    color: var(--text-muted);
+}
+
+.auth-label input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+    background-color: var(--surface);
+}
+
+.auth-btn-primary {
+    margin-top: 0.4rem;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.auth-btn-primary:hover {
+    background-color: var(--accent-hover);
+}
+
+.auth-footer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 1.5rem 0 0 0;
+}
+
+.auth-footer a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}

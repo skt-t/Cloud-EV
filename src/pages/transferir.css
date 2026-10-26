@@ -1,0 +1,261 @@
+/* Transferir.css — misma paleta que Dashboard.css / Auth.css */
+
+:root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --border: #e5e7eb;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --accent: #6366f1;
+    --accent-soft: #eef2ff;
+    --accent-hover: #4f46e5;
+    --danger: #ef4444;
+    --danger-soft: #fef2f2;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text-primary);
+}
+
+.transferir-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+}
+
+.transferir-card {
+    width: 100%;
+    max-width: 480px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.75rem 1.75rem 2rem;
+}
+
+.transferir-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.transferir-header h1 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.btn-back {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.35rem 0.5rem;
+    border-radius: 8px;
+}
+
+.btn-back:hover {
+    background-color: var(--bg);
+    color: var(--text-primary);
+}
+
+.transferir-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0 0 1rem 0;
+}
+
+.transferir-error {
+    background-color: var(--danger-soft);
+    color: var(--danger);
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.85rem;
+    margin: 0 0 1rem 0;
+}
+
+/* Lista de contactos seleccionables */
+.contacto-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.contacto-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s, background-color 0.15s;
+}
+
+.contacto-item:hover {
+    background-color: var(--accent-soft);
+    border-color: var(--accent);
+}
+
+.contacto-avatar {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.contacto-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    flex-grow: 1;
+}
+
+.contacto-nombre {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.contacto-rut {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: 'SFMono-Regular', Consolas, monospace;
+}
+
+.contacto-chevron {
+    color: var(--text-muted);
+    font-size: 1.3rem;
+}
+
+/* Resumen del contacto elegido, arriba del formulario de monto */
+.contacto-resumen {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    background-color: var(--accent-soft);
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.monto-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.monto-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.monto-input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background-color: var(--bg);
+    padding: 0 0.85rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.monto-input-wrapper:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+    background-color: var(--surface);
+}
+
+.monto-prefix {
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-right: 0.35rem;
+}
+
+.monto-input-wrapper input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: inherit;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 0.7rem 0;
+    width: 100%;
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.loader {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg);
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    font-weight: 500;
+}

@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+target/
+data/
+*.mv.db
+*.trace.db
+.idea/
+.vscode/
+*.iml
+.env
+*.log
+HELP.md

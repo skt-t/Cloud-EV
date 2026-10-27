@@ -2,6 +2,7 @@ package com.example.back_contacto.service;
 
 
 import com.example.back_contacto.dto.ContactoDTO;
+import com.example.back_contacto.messaging.producer.ContactoEventPublisher;
 import com.example.back_contacto.model.Contacto;
 import com.example.back_contacto.repository.ContactoRepository;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor  
 public class ContactoService {
     private final ContactoRepository contactoRepository;
+    private final ContactoEventPublisher eventPublisher;
 
     public Contacto crearContacto(ContactoDTO dto) {
         if (contactoRepository.existsByRut(dto.getRut())) {
@@ -26,7 +28,9 @@ public class ContactoService {
         contacto.setRut(dto.getRut());
         contacto.setCuentaValidada(false); // Forzamos el estado por defecto
         
-        return contactoRepository.save(contacto);
+        Contacto guardado = contactoRepository.save(contacto);
+        eventPublisher.publicarContactoCreado(guardado);
+        return guardado;
     }
 
     public List<Contacto> listarTodos() {
@@ -45,7 +49,9 @@ public class ContactoService {
     public Contacto validarCuenta(Long idContacto) {
         Contacto contacto = obtenerPorId(idContacto);
         contacto.setCuentaValidada(true);
-        return contactoRepository.save(contacto);
+        Contacto guardado = contactoRepository.save(contacto);
+        eventPublisher.publicarContactoValidado(guardado);
+        return guardado;
     }
 
     public Contacto actualizarContacto(Long idContacto, ContactoDTO datosNuevos) {

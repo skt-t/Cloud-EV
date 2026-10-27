@@ -24,11 +24,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authRequest ->
                         authRequest
-                                .requestMatchers("/h2-console/**").permitAll() // Permitimos consola H2 para pruebas
                                 .requestMatchers("/error").permitAll()
                                 .anyRequest().authenticated() // Cualquier otra ruta en "contactos" exigirá un token válido
                 )
-                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // Permite renderizar iframes de H2
                 .sessionManagement(sessionManager ->
                         sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

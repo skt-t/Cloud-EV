@@ -27,10 +27,6 @@ public class ContactoEventPublisher {
         publicar(props.getContactoCreado().getRoutingKey(), "CONTACTO_CREADO", contacto);
     }
 
-    public void publicarContactoValidado(Contacto contacto) {
-        publicar(props.getContactoValidado().getRoutingKey(), "CONTACTO_VALIDADO", contacto);
-    }
-
     private void publicar(String routingKey, String tipo, Contacto contacto) {
         ContactoEvent evento = ContactoEvent.builder()
                 .eventId(UUID.randomUUID().toString())

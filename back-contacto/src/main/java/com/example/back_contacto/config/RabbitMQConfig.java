@@ -17,8 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * Spring Boot (RabbitAdmin) los crea en el broker al conectarse.
  *
  * Topología:
- *   contactos.exchange (topic) --contacto.creado-->   contactos.creado.queue   --(rechazo)--> contactos.dlx --> contactos.creado.dlq
- *   contactos.exchange (topic) --contacto.validado--> contactos.validado.queue --(rechazo)--> contactos.dlx --> contactos.validado.dlq
+ *   banco.events (topic) --contacto.creado--> notificaciones.contacto --(rechazo)--> banco.dlx --> notificaciones.contacto.dlq
  */
 @Configuration
 @EnableConfigurationProperties(RabbitMQProperties.class)
@@ -69,35 +68,6 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(contactoCreadoDlq())
                 .to(contactosDeadLetterExchange())
                 .with(props.getContactoCreado().getDlqRoutingKey());
-    }
-
-    // ----------------------------------------- Caso de uso 2: contacto validado
-
-    @Bean
-    public Queue contactoValidadoQueue() {
-        return QueueBuilder.durable(props.getContactoValidado().getQueue())
-                .deadLetterExchange(props.getDlx())
-                .deadLetterRoutingKey(props.getContactoValidado().getDlqRoutingKey())
-                .build();
-    }
-
-    @Bean
-    public Queue contactoValidadoDlq() {
-        return QueueBuilder.durable(props.getContactoValidado().getDlq()).build();
-    }
-
-    @Bean
-    public Binding contactoValidadoBinding() {
-        return BindingBuilder.bind(contactoValidadoQueue())
-                .to(contactosExchange())
-                .with(props.getContactoValidado().getRoutingKey());
-    }
-
-    @Bean
-    public Binding contactoValidadoDlqBinding() {
-        return BindingBuilder.bind(contactoValidadoDlq())
-                .to(contactosDeadLetterExchange())
-                .with(props.getContactoValidado().getDlqRoutingKey());
     }
 
     // ---------------------------------------------------------------- Conversor

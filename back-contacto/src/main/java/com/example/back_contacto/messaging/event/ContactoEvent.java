@@ -15,7 +15,7 @@ import java.time.Instant;
 public class ContactoEvent {
 
     private String eventId;
-    private String tipo;          // CONTACTO_CREADO | CONTACTO_VALIDADO
+    private String tipo;          // CONTACTO_CREADO
     private Long idContacto;
     private Long idUsuario;
     private String nombreContacto;

@@ -49,9 +49,7 @@ public class ContactoService {
     public Contacto validarCuenta(Long idContacto) {
         Contacto contacto = obtenerPorId(idContacto);
         contacto.setCuentaValidada(true);
-        Contacto guardado = contactoRepository.save(contacto);
-        eventPublisher.publicarContactoValidado(guardado);
-        return guardado;
+        return contactoRepository.save(contacto);
     }
 
     public Contacto actualizarContacto(Long idContacto, ContactoDTO datosNuevos) {

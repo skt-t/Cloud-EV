@@ -31,10 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
-target/
+
+### Proyecto ###
 data/
 *.mv.db
 *.trace.db
-.idea/
-.vscode/
-HELP.md
+.env
+*.log

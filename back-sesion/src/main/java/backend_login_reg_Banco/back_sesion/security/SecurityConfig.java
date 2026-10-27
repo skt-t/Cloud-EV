@@ -20,13 +20,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers("/auth/**").permitAll() 
-                                .requestMatchers("/h2-console/**").permitAll() 
                                 .requestMatchers("/api/usuarios/**").permitAll()
                                 .requestMatchers("/error").permitAll()
                                 .anyRequest().authenticated()
                 )
-                // Permitir que la consola de H2 se renderice en iframes
-                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                 .sessionManagement(sessionManager ->
                         sessionManager
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) 

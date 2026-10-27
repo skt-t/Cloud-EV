@@ -5,6 +5,7 @@ import com.trans.service.dto.TransactionRequestDto;
 import com.trans.service.repositories.TransactionRepository;
 import com.trans.service.clients.ContactoClient;
 import com.trans.service.dto.ContactoResponseDto;
+import com.trans.service.messaging.TransferenciaEventPublisher;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +17,7 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final ContactoClient contactoClient;
+    private final TransferenciaEventPublisher publisher;
 
     public Transaction transferir(TransactionRequestDto dto, String rutRemitente, String token) {
         ContactoResponseDto contacto = contactoClient.validarContacto(dto.getIdContacto(), token);
@@ -36,7 +38,9 @@ public class TransactionService {
 
         t.setMonto(dto.getMonto());
 
-        return transactionRepository.save(t);
+        Transaction saved = transactionRepository.save(t);
+        publisher.publicar(saved);
+        return saved;
     }
 
     public List<Transaction> obtenerPorUsuario(Long idUsuario) {

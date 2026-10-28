@@ -30,7 +30,7 @@ public class TransactionService {
         t.setIdUsuario(dto.getIdUsuario());
         t.setRutOrigen(rutRemitente);
 
-        Long idContactoFinal = (contacto.id() != null) ? contacto.id() : dto.getIdContacto();
+        Long idContactoFinal = (contacto.idContacto() != null) ? contacto.idContacto() : dto.getIdContacto();
         t.setIdContacto(idContactoFinal);
 
         String rutDestinoFinal = (contacto.rut() != null) ? contacto.rut() : dto.getRutDestino();

@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/** Perfil del usuario en MySQL. Las credenciales viven solo en Cognito: aquí no se guarda ninguna contraseña. */
 @Data
 @Builder
 @NoArgsConstructor
@@ -32,15 +33,11 @@ public class Usuario {
     @Column(name = "gmail", nullable = false, unique = true)
     private String gmail;
 
-    // Para los niveles de permiso (Admin o Usuario)
+    // Nivel de permiso: "Admin" o "Usuario". Siempre nace como "Usuario"; el Admin se asigna a mano en la BD.
     @Column(nullable = false)
     private String permisos;
-    
-    // Como el administrador puede autorizar el acceso de un usuario registrado a través del portal,
-    // es útil tener un campo para manejar este estado.
+
+    // El administrador puede autorizar el acceso de un usuario registrado.
     @Column(nullable = false)
     private boolean autorizado;
-    
-    @Column(nullable = false)
-    private String password;
 }

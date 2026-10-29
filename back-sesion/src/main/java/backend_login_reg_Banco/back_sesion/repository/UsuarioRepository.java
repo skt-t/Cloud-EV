@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByRut(String rut);
     Optional<Usuario> findByGmail(String gmail);
+    boolean existsByRut(String rut);
+    boolean existsByGmail(String gmail);
 }

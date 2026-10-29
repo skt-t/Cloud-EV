@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../api'; // <-- IMPORTANTE: Usamos tu instancia configurada, no axios
+import api from '../api';
+import { handleApiError } from '../utils/errorHandler';
 import './agregarcontacto.css';
 
 const AgregarContacto = () => {
@@ -23,12 +24,11 @@ const AgregarContacto = () => {
 
         try {
             const params = esGmail ? { gmail: busqueda.trim() } : { rut: busqueda.trim() };
-            // El token y la URL base (https://414l...) se añaden automáticamente por api.js
             const { data } = await api.get('/usuarios/buscar', { params });
             setUsuarioEncontrado(data);
         } catch (err) {
             console.error('Error al buscar usuario:', err);
-            setError('No se encontró ningún usuario con ese RUT o Gmail.');
+            setError(handleApiError(err));
         } finally {
             setBuscando(false);
         }
@@ -39,7 +39,6 @@ const AgregarContacto = () => {
         setGuardando(true);
 
         try {
-            // Nuevamente, api.js se encarga de la ruta completa y el token
             await api.post('/contactos', {
                 idUsuario: Number(userId),
                 nombreContacto: usuarioEncontrado.nombre,
@@ -50,7 +49,7 @@ const AgregarContacto = () => {
             navigate(`/dashboard/${userId}`);
         } catch (err) {
             console.error('Error al guardar el contacto:', err);
-            setError('No se pudo guardar el contacto. Intenta de nuevo.');
+            setError(handleApiError(err));
         } finally {
             setGuardando(false);
         }

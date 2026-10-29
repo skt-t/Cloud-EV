@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../api'; // Reemplazamos axios por tu instancia configurada
+import api from '../api';
+import { handleApiError } from '../utils/errorHandler';
 import './dashboard.css';
 
 const Dashboard = () => {
@@ -8,9 +9,9 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [dashboardData, setDashboardData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        // api.js ya se encarga de inyectar el token y usar la URL de AWS
         api.get(`/dashboard/${userId}`)
         .then(res => {
             setDashboardData(res.data);
@@ -18,13 +19,37 @@ const Dashboard = () => {
         })
         .catch(err => {
             console.error("Error al cargar el dashboard:", err);
-            localStorage.removeItem('token');
-            navigate('/');
+            setError(handleApiError(err));
+            setLoading(false);
         });
     }, [userId, navigate]);
 
     if (loading) {
         return <div className="loader">Cargando...</div>;
+    }
+
+    if (error) {
+        return (
+            <div className="dashboard-container">
+                <div className="dashboard-header">
+                    <div className="header-logo">
+                        <span className="logo-icon">☁️</span>
+                        <h1>Banco Cloud</h1>
+                    </div>
+                    <div className="header-user">
+                        <button className="btn-logout" onClick={() => { localStorage.clear(); navigate('/'); }}>
+                            Cerrar Sesión
+                        </button>
+                    </div>
+                </div>
+                <div style={{ padding: '2rem', textAlign: 'center', color: '#ff4d4f' }}>
+                    <p>{error}</p>
+                    <button className="btn-primary" onClick={() => navigate('/')} style={{ marginTop: '1rem' }}>
+                        Volver al Login
+                    </button>
+                </div>
+            </div>
+        );
     }
 
     const { usuario, metricas, detalles } = dashboardData;

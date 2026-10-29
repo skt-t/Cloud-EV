@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import api from '../api';
+import { COGNITO_POOL_ID, COGNITO_CLIENT_ID } from '../config';
+import { handleApiError } from '../utils/errorHandler';
 import './Auth.css';
 
-// Configuramos tu User Pool de AWS Cognito
 const poolData = {
-    UserPoolId: 'us-east-1_uyCELHdgp',
-    ClientId: '91nln9bvj99r9oa5s6tc8ppud'
+    UserPoolId: COGNITO_POOL_ID,
+    ClientId: COGNITO_CLIENT_ID
 };
 const userPool = new CognitoUserPool(poolData);
 
@@ -28,22 +29,24 @@ export default function Register() {
             new CognitoUserAttribute({ Name: 'email', Value: formData.gmail })
         ];
 
-        // 1. Registramos las credenciales directamente en AWS Cognito
-        userPool.signUp(formData.gmail, formData.password, attributeList, null, async (err, result) => {
+        userPool.signUp(formData.gmail, formData.password, attributeList, null, async (err) => {
             if (err) {
                 console.error(err);
                 setError('Error en Cognito: ' + (err.message || 'Error desconocido'));
                 return;
             }
 
-            // 2. Si Cognito lo aprueba, enviamos los datos de perfil a tu backend en Spring Boot
             try {
-                await api.post('/register', formData);
+                await api.post('/register', {
+                    nombre: formData.nombre,
+                    rut: formData.rut,
+                    gmail: formData.gmail
+                });
                 alert('Registro exitoso en la nube. Por favor, inicia sesión.');
                 navigate('/');
             } catch (backendErr) {
                 console.error(backendErr);
-                setError('Registrado en Cognito, pero hubo un error al guardar en la base de datos.');
+                setError(handleApiError(backendErr));
             }
         });
     };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../api'; // Reemplazamos axios por api
+import api from '../api';
+import { handleApiError } from '../utils/errorHandler';
 import './transferir.css';
 
 const Transferir = () => {
@@ -25,7 +26,7 @@ const Transferir = () => {
         })
         .catch(err => {
             console.error("Error al cargar los contactos:", err);
-            setError('No se pudieron cargar tus contactos.');
+            setError(handleApiError(err));
             setLoading(false);
         });
     }, [userId, navigate]);
@@ -46,9 +47,14 @@ const Transferir = () => {
         e.preventDefault();
         setError('');
 
+        if (!contactoSeleccionado) {
+            setError('Debes seleccionar un contacto.');
+            return;
+        }
+
         const montoNumerico = Number(monto);
         if (!montoNumerico || montoNumerico <= 0) {
-            setError('Ingresa un monto válido.');
+            setError('Ingresa un monto válido mayor a 0.');
             return;
         }
 
@@ -63,10 +69,11 @@ const Transferir = () => {
                 monto: montoNumerico
             });
 
+            alert('Transferencia realizada. La notificación y el comprobante se generan en segundo plano.');
             navigate(`/dashboard/${userId}`);
         } catch (err) {
             console.error("Error al realizar la transferencia:", err);
-            setError('No se pudo realizar la transferencia. Revisa los datos e intenta de nuevo.');
+            setError(handleApiError(err));
         } finally {
             setEnviando(false);
         }

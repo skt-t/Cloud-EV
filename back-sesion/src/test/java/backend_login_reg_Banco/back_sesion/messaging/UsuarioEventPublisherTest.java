@@ -22,6 +22,9 @@ class UsuarioEventPublisherTest {
     @Mock
     private RabbitTemplate rabbit;
 
+    @Mock
+    private UsuarioKafkaProducer usuarioKafkaProducer;
+
     private final RabbitMQProperties props = new RabbitMQProperties(
             "banco.events", "banco.dlx", "usuario.registrado",
             "notificaciones.usuario", "notificaciones.usuario.dlq");
@@ -32,7 +35,7 @@ class UsuarioEventPublisherTest {
 
     @Test
     void publicaElEventoEnElExchangeCorrecto() {
-        new UsuarioEventPublisher(rabbit, props).publicar(usuario());
+        new UsuarioEventPublisher(rabbit, props, usuarioKafkaProducer).publicar(usuario());
 
         verify(rabbit).convertAndSend(
                 eq("banco.events"), eq("usuario.registrado"), any(Object.class));
@@ -42,7 +45,7 @@ class UsuarioEventPublisherTest {
     void noPropagaLaExcepcionSiRabbitFalla() {
         doThrow(new AmqpException("RabbitMQ caído"))
                 .when(rabbit).convertAndSend(any(String.class), any(String.class), any(Object.class));
-        UsuarioEventPublisher publisher = new UsuarioEventPublisher(rabbit, props);
+        UsuarioEventPublisher publisher = new UsuarioEventPublisher(rabbit, props, usuarioKafkaProducer);
 
         assertDoesNotThrow(() -> publisher.publicar(usuario()));
     }

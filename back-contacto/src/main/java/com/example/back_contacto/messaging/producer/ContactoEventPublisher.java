@@ -22,6 +22,7 @@ public class ContactoEventPublisher {
 
     private final RabbitTemplate rabbitTemplate;
     private final RabbitMQProperties props;
+    private final ContactoKafkaProducer kafkaProducer;
 
     public void publicarContactoCreado(Contacto contacto) {
         publicar(props.getContactoCreado().getRoutingKey(), "CONTACTO_CREADO", contacto);
@@ -39,9 +40,19 @@ public class ContactoEventPublisher {
                 .fecha(Instant.now())
                 .build();
         try {
+            // 1. RabbitMQ (Flujo existente intacto)
             rabbitTemplate.convertAndSend(props.getExchange(), routingKey, evento);
             log.info("[RABBITMQ] Evento {} publicado (routingKey={}, idContacto={})",
                     tipo, routingKey, contacto.getIdContacto());
+
+            // 2. Kafka (En paralelo, protegido por try/catch)
+            try {
+                kafkaProducer.publicar(evento);
+            } catch (Exception e) {
+                log.error("[KAFKA ERROR] No se pudo publicar en Kafka para contacto {}: {}. RabbitMQ sigue funcionando.",
+                        contacto.getIdContacto(), e.getMessage());
+            }
+
         } catch (Exception e) {
             log.error("[RABBITMQ] No se pudo publicar {} (idContacto={}): {}",
                     tipo, contacto.getIdContacto(), e.getMessage());

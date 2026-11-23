@@ -50,7 +50,7 @@ GET {{baseUrl}}/consumer-groups
 Authorization: {{token}}
 
 ### 7. Describir consumer group
-GET {{baseUrl}}/consumer-groups/transacciones-group
+GET {{baseUrl}}/consumer-groups/notificaciones-transferencia-group
 Authorization: {{token}}
 
 ### 8. Obtener información del cluster

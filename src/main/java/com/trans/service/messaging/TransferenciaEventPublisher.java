@@ -18,18 +18,31 @@ public class TransferenciaEventPublisher {
 
     private final RabbitTemplate rabbit;
     private final RabbitMQProperties p;
+    private final TransferenciaKafkaProducer kafkaProducer;
 
-    public TransferenciaEventPublisher(RabbitTemplate rabbit, RabbitMQProperties p) {
+    public TransferenciaEventPublisher(RabbitTemplate rabbit, RabbitMQProperties p, TransferenciaKafkaProducer kafkaProducer) {
         this.rabbit = rabbit;
         this.p = p;
+        this.kafkaProducer = kafkaProducer;
     }
 
     public void publicar(Transaction t) {
         try {
             var evento = new TransferenciaRealizadaEvent(
                     t.getIdTransferencia(), t.getMonto(), LocalDateTime.now());
+            
+            // 1. RabbitMQ (Flujo existente intacto)
             rabbit.convertAndSend(p.exchange(), p.routingTransferencia(), evento);
-            log.info("Evento publicado: transferencia {}", t.getIdTransferencia());
+            log.info("Evento publicado en RabbitMQ: transferencia {}", t.getIdTransferencia());
+
+            // 2. Kafka (En paralelo, protegido por try/catch para no romper RabbitMQ)
+            try {
+                kafkaProducer.publicar(evento);
+            } catch (Exception e) {
+                log.error("[KAFKA ERROR] No se pudo publicar en Kafka para transferencia {}: {}. RabbitMQ sigue funcionando.",
+                        t.getIdTransferencia(), e.getMessage());
+            }
+
         } catch (Exception e) {
             log.error("No se pudo publicar la transferencia {}: {}", t.getIdTransferencia(), e.getMessage());
         }

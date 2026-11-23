@@ -23,6 +23,9 @@ class TransferenciaEventPublisherTest {
     @Mock
     private RabbitTemplate rabbit;
 
+    @Mock
+    private TransferenciaKafkaProducer kafkaProducer;
+
     private final RabbitMQProperties props = new RabbitMQProperties(
             "banco.events", "banco.dlx", "transferencia.realizada",
             "cola.notificaciones", "cola.comprobante",
@@ -31,7 +34,7 @@ class TransferenciaEventPublisherTest {
     @Test
     void publicaElEventoEnElExchangeCorrecto() {
         Transaction t = mock(Transaction.class);
-        TransferenciaEventPublisher publisher = new TransferenciaEventPublisher(rabbit, props);
+        TransferenciaEventPublisher publisher = new TransferenciaEventPublisher(rabbit, props, kafkaProducer);
 
         publisher.publicar(t);
 
@@ -44,7 +47,7 @@ class TransferenciaEventPublisherTest {
         Transaction t = mock(Transaction.class);
         doThrow(new AmqpException("RabbitMQ caído"))
                 .when(rabbit).convertAndSend(any(String.class), any(String.class), any(Object.class));
-        TransferenciaEventPublisher publisher = new TransferenciaEventPublisher(rabbit, props);
+        TransferenciaEventPublisher publisher = new TransferenciaEventPublisher(rabbit, props, kafkaProducer);
 
         assertDoesNotThrow(() -> publisher.publicar(t));
     }

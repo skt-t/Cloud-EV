@@ -3,6 +3,7 @@ package com.example.back_contacto.messaging;
 import com.example.back_contacto.config.RabbitMQProperties;
 import com.example.back_contacto.messaging.event.ContactoEvent;
 import com.example.back_contacto.messaging.producer.ContactoEventPublisher;
+import com.example.back_contacto.messaging.producer.ContactoKafkaProducer;
 import com.example.back_contacto.model.Contacto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,9 @@ class ContactoEventPublisherTest {
     @Mock
     private RabbitTemplate rabbitTemplate;
 
+    @Mock
+    private ContactoKafkaProducer contactoKafkaProducer;
+
     private RabbitMQProperties props;
     private ContactoEventPublisher publisher;
     private Contacto contacto;
@@ -35,7 +39,7 @@ class ContactoEventPublisherTest {
         props = new RabbitMQProperties();
         props.setExchange("banco.events");
         props.getContactoCreado().setRoutingKey("contacto.creado");
-        publisher = new ContactoEventPublisher(rabbitTemplate, props);
+        publisher = new ContactoEventPublisher(rabbitTemplate, props, contactoKafkaProducer);
 
         contacto = new Contacto();
         contacto.setIdContacto(7L);

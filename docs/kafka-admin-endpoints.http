@@ -1,0 +1,62 @@
+### Variables
+@baseUrl = http://localhost:8084/api/admin/kafka
+@token = Bearer YOUR_JWT_COGNITO_TOKEN
+
+### 1. Listar tópicos
+GET {{baseUrl}}/topics
+Authorization: {{token}}
+
+### 2. Crear tópico
+POST {{baseUrl}}/topics
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "name": "banco.transacciones.events",
+  "partitions": 3,
+  "replicas": 3,
+  "configs": {
+    "retention.ms": "604800000",
+    "cleanup.policy": "delete"
+  }
+}
+
+### 3. Describir tópico
+GET {{baseUrl}}/topics/banco.transacciones.events
+Authorization: {{token}}
+
+### 4. Modificar configuración de tópico
+PUT {{baseUrl}}/topics/banco.transacciones.events/config
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "configs": {
+    "retention.ms": "864000000"
+  }
+}
+
+### 5. Aumentar particiones de tópico
+PUT {{baseUrl}}/topics/banco.transacciones.events/partitions
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "totalPartitions": 5
+}
+
+### 6. Listar consumer groups
+GET {{baseUrl}}/consumer-groups
+Authorization: {{token}}
+
+### 7. Describir consumer group
+GET {{baseUrl}}/consumer-groups/transacciones-group
+Authorization: {{token}}
+
+### 8. Obtener información del cluster
+GET {{baseUrl}}/cluster
+Authorization: {{token}}
+
+### 9. Eliminar tópico
+DELETE {{baseUrl}}/topics/banco.transacciones.events
+Authorization: {{token}}

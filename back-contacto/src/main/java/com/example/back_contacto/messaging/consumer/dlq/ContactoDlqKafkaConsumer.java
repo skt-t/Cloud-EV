@@ -11,7 +11,7 @@ public class ContactoDlqKafkaConsumer {
 
     private static final Logger log = LoggerFactory.getLogger(ContactoDlqKafkaConsumer.class);
 
-    @KafkaListener(topics = "${app.kafka.topic-usuarios}.DLT", groupId = "contactos-dlt-group")
+    @KafkaListener(topics = "${app.kafka.topic-contactos}.DLT", groupId = "contactos-dlt-group")
     public void consumirDlq(ConsumerRecord<String, Object> record) {
         log.error("[KAFKA DLT] Mensaje de contacto fallido recibido en Dead Letter Topic: Topic={}, Partition={}, Offset={}, Key={}, Value={}",
                 record.topic(), record.partition(), record.offset(), record.key(), record.value());

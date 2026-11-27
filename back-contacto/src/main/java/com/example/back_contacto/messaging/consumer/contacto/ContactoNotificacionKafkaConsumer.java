@@ -21,7 +21,7 @@ public class ContactoNotificacionKafkaConsumer {
         this.service = service;
     }
 
-    @KafkaListener(topics = "${app.kafka.topic-usuarios}", groupId = "notificaciones-contacto-group")
+    @KafkaListener(topics = "${app.kafka.topic-contactos}", groupId = "notificaciones-contacto-group")
     public void consumir(@Payload ContactoEvent evento, ConsumerRecord<String, Object> record) {
         log.info("[KAFKA CONSUMER - CONTACTOS] Topic: {}, Partition: {}, Offset: {}, Key: {}",
                 record.topic(), record.partition(), record.offset(), record.key());

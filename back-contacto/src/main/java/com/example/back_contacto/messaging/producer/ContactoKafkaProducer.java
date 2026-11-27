@@ -22,7 +22,7 @@ public class ContactoKafkaProducer {
     }
 
     public void publicar(ContactoEvent evento) {
-        String topic = props.topicUsuarios();
+        String topic = props.topicContactos();
         String key = String.valueOf(evento.getIdContacto());
         try {
             org.apache.kafka.clients.producer.ProducerRecord<String, Object> record = new org.apache.kafka.clients.producer.ProducerRecord<>(topic, key, evento);

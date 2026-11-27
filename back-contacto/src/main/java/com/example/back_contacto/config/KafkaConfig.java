@@ -13,7 +13,7 @@ import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
-import org.springframework.kafka.support.serializer.JacksonJsonSerializer;
+import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.util.backoff.ExponentialBackOff;
 
 import java.util.Map;
@@ -31,8 +31,8 @@ public class KafkaConfig {
     }
 
     @Bean
-    public NewTopic usuariosTopic() {
-        return TopicBuilder.name(props.topicUsuarios())
+    public NewTopic contactosTopic() {
+        return TopicBuilder.name(props.topicContactos())
                 .partitions(props.partitions())
                 .replicas(props.replicas())
                 .config("retention.ms", String.valueOf(props.retentionMs()))
@@ -42,8 +42,8 @@ public class KafkaConfig {
     }
 
     @Bean
-    public NewTopic usuariosDltTopic() {
-        return TopicBuilder.name(props.topicUsuarios() + ".DLT")
+    public NewTopic contactosDltTopic() {
+    return TopicBuilder.name(props.topicContactos() + ".DLT")
                 .partitions(props.partitions())
                 .replicas(props.replicas())
                 .build();
@@ -53,7 +53,7 @@ public class KafkaConfig {
     public ProducerFactory<String, Object> producerFactory() {
         Map<String, Object> propsMap = kafkaProperties.buildProducerProperties();
         propsMap.put(org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        propsMap.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JacksonJsonSerializer.class);
+        propsMap.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(propsMap);
     }
 
@@ -79,7 +79,7 @@ public class KafkaConfig {
                         byte[].class, byteArrayKafkaTemplate,
                         Object.class, kafkaTemplate
                 ),
-                (record, ex) -> new org.apache.kafka.common.TopicPartition(props.topicUsuarios() + ".DLT", record.partition())
+                (record, ex) -> new org.apache.kafka.common.TopicPartition(props.topicContactos() + ".DLT", record.partition())
         );
 
         ExponentialBackOff backOff = new ExponentialBackOff(1000L, 2.0);

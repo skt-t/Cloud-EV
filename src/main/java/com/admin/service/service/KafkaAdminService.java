@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.apache.kafka.common.errors.GroupNotEmptyException;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AlterConfigOp;
@@ -218,6 +219,33 @@ public class KafkaAdminService {
                     Math.max(0L, latestOffset - committedOffset)));
         });
         return result;
+    }
+
+    public List<PartitionLag> getConsumerGroupLag(String groupId) {
+    try {
+        return calculateLag(groupId);
+    } catch (Exception e) {
+        if (hasCause(e, GroupIdNotFoundException.class)) {
+            throw new RecursoNoEncontradoException("Consumer group '" + groupId + "' no encontrado");
+        }
+        throw error("Error al obtener lag del consumer group", e);
+    }
+}
+
+    public void deleteConsumerGroup(String groupId) {
+        try {
+            adminClient.deleteConsumerGroups(Collections.singleton(groupId)).all().get();
+            log.info("[KAFKA ADMIN] Consumer group eliminado: {}", groupId);
+        } catch (Exception e) {
+            if (hasCause(e, GroupIdNotFoundException.class)) {
+                throw new RecursoNoEncontradoException("Consumer group '" + groupId + "' no encontrado");
+            }
+            if (hasCause(e, GroupNotEmptyException.class)) {
+                throw new IllegalArgumentException(
+                        "El grupo '" + groupId + "' tiene miembros activos; detén sus consumers primero");
+            }
+            throw error("Error al eliminar consumer group", e);
+        }
     }
 
     // ------------------------------------------------------------------ cluster

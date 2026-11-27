@@ -73,6 +73,17 @@ public class KafkaAdminController {
         return ResponseEntity.ok(service.describeConsumerGroup(id));
     }
 
+    @GetMapping("/consumer-groups/{id}/lag")
+    public ResponseEntity<?> getConsumerGroupLag(@PathVariable String id) {
+        return ResponseEntity.ok(service.getConsumerGroupLag(id));
+    }
+
+    @DeleteMapping("/consumer-groups/{id}")
+    public ResponseEntity<Map<String, String>> deleteConsumerGroup(@PathVariable String id) {
+        service.deleteConsumerGroup(id);
+        return ResponseEntity.ok(Map.of("message", "Consumer group '" + id + "' eliminado exitosamente"));
+    }
+
     @GetMapping("/cluster")
     public ResponseEntity<Map<String, Object>> getClusterInfo() {
         return ResponseEntity.ok(service.getClusterInfo());
